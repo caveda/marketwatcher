@@ -1,4 +1,4 @@
-package com.victorcaveda.marketwatcher.ui.theme
+package com.victorcaveda.marketwatcher.presentation.ui.theme
 
 import android.app.Activity
 import android.os.Build
