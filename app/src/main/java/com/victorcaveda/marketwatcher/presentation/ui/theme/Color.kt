@@ -1,4 +1,4 @@
-package com.victorcaveda.marketwatcher.ui.theme
+package com.victorcaveda.marketwatcher.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
