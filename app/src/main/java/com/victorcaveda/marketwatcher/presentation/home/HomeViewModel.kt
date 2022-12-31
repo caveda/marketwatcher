@@ -5,22 +5,24 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.victorcaveda.marketwatcher.data.repository.CryptoRepositoryImpl
 import com.victorcaveda.marketwatcher.domain.model.Price
+import com.victorcaveda.marketwatcher.domain.repository.CryptoRepository
 import com.victorcaveda.marketwatcher.presentation.model.HomeState
 import com.victorcaveda.marketwatcher.presentation.model.PriceScreenData
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class HomeViewModel : ViewModel() {
 
-    val cryptoRepository = CryptoRepositoryImpl()
+@HiltViewModel
+class HomeViewModel @Inject constructor(private val repository: CryptoRepository) : ViewModel() {
 
     var state by mutableStateOf(HomeState())
         private set
 
     fun loadData() {
         viewModelScope.launch {
-            cryptoRepository.getCryptoPrice("any").fold(
+            repository.getCryptoPrice("any").fold(
                 { price ->
                     state = state.copy(
                         assetPrice = price.toPresentation()
