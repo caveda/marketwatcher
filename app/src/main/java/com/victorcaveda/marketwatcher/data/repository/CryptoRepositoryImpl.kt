@@ -4,8 +4,9 @@ import com.victorcaveda.marketwatcher.domain.model.Price
 import com.victorcaveda.marketwatcher.domain.repository.CryptoRepository
 import kotlinx.coroutines.delay
 import java.time.Instant
+import javax.inject.Inject
 
-class CryptoRepositoryImpl : CryptoRepository {
+class CryptoRepositoryImpl @Inject constructor() : CryptoRepository {
 
     override suspend fun getCryptoPrice(id: String): Result<Price> {
         delay(100)
