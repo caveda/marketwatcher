@@ -8,8 +8,8 @@ import javax.inject.Inject
 
 class CryptoRepositoryImpl @Inject constructor() : CryptoRepository {
 
-    override suspend fun getCryptoPrice(id: String): Result<Price> {
+    override suspend fun getCryptoPrice(ticker: String): Result<Price> {
         delay(100)
-        return Result.success(Price(Instant.now(), 9999.0, "EUR"))
+        return Result.success(Price(ticker, Instant.now(), 9999.0, "EUR"))
     }
 }

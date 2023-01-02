@@ -1,31 +1,32 @@
 package com.victorcaveda.marketwatcher.presentation.home
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.victorcaveda.marketwatcher.presentation.model.HomeState
 import com.victorcaveda.marketwatcher.presentation.model.PriceScreenData
-import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 
-
-@Composable
-fun Home(state: HomeState, modifier: Modifier = Modifier) {
-    AssetPrice(priceInfo = state.assetPrice, modifier)
-}
 
 @Composable
 fun AssetPrice(priceInfo: PriceScreenData, modifier: Modifier = Modifier) {
-    Text(
-        text = priceInfo.price,
-        modifier = modifier
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceEvenly
     )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    MarketWatcherTheme {
-        AssetPrice(PriceScreenData("100,123 EUR"))
+    {
+        Text(
+            style = MaterialTheme.typography.titleLarge,
+            text = priceInfo.ticker,
+            modifier = modifier
+        )
+        Text(
+            style = MaterialTheme.typography.titleLarge,
+            text = priceInfo.price,
+            modifier = modifier
+        )
     }
 }
