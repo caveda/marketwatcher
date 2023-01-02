@@ -20,9 +20,18 @@ class HomeViewModel @Inject constructor(private val repository: CryptoRepository
     var state by mutableStateOf(HomeState())
         private set
 
+    companion object {
+        private const val DEFAULT_TICKER = "ABC"
+        private val DEFAULT_HOME_STATE = HomeState(PriceScreenData("-", "-"))
+    }
+
+    init {
+        state = DEFAULT_HOME_STATE.copy()
+    }
+
     fun loadData() {
         viewModelScope.launch {
-            repository.getCryptoPrice("any").fold(
+            repository.getCryptoPrice(DEFAULT_TICKER).fold(
                 { price ->
                     state = state.copy(
                         assetPrice = price.toPresentation()
@@ -33,5 +42,5 @@ class HomeViewModel @Inject constructor(private val repository: CryptoRepository
 }
 
 private fun Price.toPresentation() =
-    PriceScreenData("$currentPrice $currency")
+    PriceScreenData(ticker, "$currentPrice $currency")
 
