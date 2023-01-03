@@ -21,8 +21,9 @@ class HomeViewModel @Inject constructor(private val repository: CryptoRepository
         private set
 
     companion object {
-        private const val DEFAULT_TICKER = "ABC"
-        private val DEFAULT_HOME_STATE = HomeState(PriceScreenData("-", "-"))
+        private const val DEFAULT_TICKER = "ETH"
+        private const val DEFAULT_CURRENCY = "EUR"
+        private val DEFAULT_HOME_STATE = HomeState(PriceScreenData(DEFAULT_TICKER, "-"))
     }
 
     init {
@@ -31,12 +32,15 @@ class HomeViewModel @Inject constructor(private val repository: CryptoRepository
 
     fun loadData() {
         viewModelScope.launch {
-            repository.getCryptoPrice(DEFAULT_TICKER).fold(
+            repository.getCryptoPrice(DEFAULT_TICKER, DEFAULT_CURRENCY).fold(
                 { price ->
                     state = state.copy(
                         assetPrice = price.toPresentation()
                     )
-                }, {})
+                },
+                {
+                    state = DEFAULT_HOME_STATE.copy()
+                })
         }
     }
 }

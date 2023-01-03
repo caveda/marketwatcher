@@ -1,5 +1,7 @@
 package com.victorcaveda.marketwatcher.data.di
 
+import com.victorcaveda.marketwatcher.data.remote.CryptoCompare
+import com.victorcaveda.marketwatcher.data.remote.fake.CryptoCompareFakeImpl
 import com.victorcaveda.marketwatcher.data.repository.CryptoRepositoryImpl
 import com.victorcaveda.marketwatcher.domain.repository.CryptoRepository
 import dagger.Binds
@@ -12,4 +14,7 @@ import dagger.hilt.android.components.ViewModelComponent
 abstract class DataModule {
     @Binds
     abstract fun bindCryptoRepository(repository: CryptoRepositoryImpl): CryptoRepository
+
+    @Binds
+    abstract fun bindCryptoCompareDataSource(cryptoCompareImpl: CryptoCompareFakeImpl): CryptoCompare
 }
