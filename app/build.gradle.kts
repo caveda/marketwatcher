@@ -93,6 +93,9 @@ dependencies {
     testRuntimeOnly("org.junit.vintage:junit-vintage-engine:5.9.1")
     testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
 
+    // Mocking
+    testImplementation("io.mockk:mockk:1.13.4")
+
     // Instrumented tests
     androidTestImplementation("androidx.test.ext:junit:1.1.3")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.4.0")
