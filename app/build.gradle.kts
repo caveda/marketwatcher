@@ -82,6 +82,13 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.5.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
 
+    // Networking
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.moshi:moshi:1.14.0")
+    implementation("com.squareup.moshi:moshi-kotlin:1.14.0")
+    implementation("com.squareup.retrofit2:converter-moshi:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+
     // DI
     implementation("com.google.dagger:hilt-android:2.44")
     kapt("com.google.dagger:hilt-android-compiler:2.44")
