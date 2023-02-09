@@ -1,6 +1,6 @@
 package com.victorcaveda.marketwatcher.presentation.model
 
-data class PriceScreenData(
+data class AssetPriceData(
     val ticker: String,
     val price: String
 )

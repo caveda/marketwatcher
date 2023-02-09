@@ -16,8 +16,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.victorcaveda.marketwatcher.presentation.model.AssetPriceData
+import com.victorcaveda.marketwatcher.presentation.model.AssetsScreenData
 import com.victorcaveda.marketwatcher.presentation.model.HomeState
-import com.victorcaveda.marketwatcher.presentation.model.PriceScreenData
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 
 
@@ -35,8 +36,6 @@ fun Home(state: HomeState, refreshAction: () -> Unit, modifier: Modifier = Modif
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
 
-            AssetPrice(priceInfo = state.assetPrice, modifier)
-            Spacer(modifier = Modifier.height(16.dp))
             Button(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = refreshAction,
@@ -48,6 +47,8 @@ fun Home(state: HomeState, refreshAction: () -> Unit, modifier: Modifier = Modif
                     modifier = modifier
                 )
             }
+            Spacer(modifier = Modifier.height(16.dp))
+            Assets(assetsData = state.data, modifier = modifier)
         }
     }
 }
@@ -57,6 +58,6 @@ fun Home(state: HomeState, refreshAction: () -> Unit, modifier: Modifier = Modif
 @Composable
 fun GreetingPreview() {
     MarketWatcherTheme {
-        Home(HomeState(PriceScreenData("ABC", "100,123 EUR")), {})
+        Home(HomeState(AssetsScreenData(listOf(AssetPriceData("ABC", "100,123 EUR")))), {})
     }
 }
