@@ -1,8 +1,13 @@
 package com.victorcaveda.marketwatcher.presentation.home
 
 import android.content.res.Configuration
+import android.view.View
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -18,6 +23,10 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -28,54 +37,112 @@ import androidx.compose.ui.unit.dp
 import com.victorcaveda.marketwatcher.R
 import com.victorcaveda.marketwatcher.presentation.model.AssetViewData
 import com.victorcaveda.marketwatcher.presentation.model.AssetsScreenData
+import com.victorcaveda.marketwatcher.presentation.model.Fundamentals
 import com.victorcaveda.marketwatcher.presentation.model.TradeData
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 
 
 @Composable
 fun AssetPrice(assetData: AssetViewData, modifier: Modifier = Modifier) {
+    var isExpanded by remember { mutableStateOf(false) }
     Box(
         modifier = modifier
             .padding(4.dp)
             .fillMaxWidth()
+            .clickable {isExpanded = !isExpanded}
     ) {
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween,
-
-            )
+            verticalArrangement = Arrangement.SpaceBetween
+        )
         {
-            AssetCell(assetData, modifier)
+            val surfaceColor by animateColorAsState(
+                if (isExpanded) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surface,
+            )
+
+            AssetTradeDataView(assetData.tradeInfo, modifier)
+
+            AnimatedVisibility(visible = isExpanded) {
+                Surface(
+                    shape = MaterialTheme.shapes.small,
+                    shadowElevation = 1.dp,
+                    color = surfaceColor,
+                    modifier = Modifier
+                        .animateContentSize()
+                        .padding(1.dp)
+                )
+                {
+                    AssetFundamentalsView(assetData.fundamentals, modifier)
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun AssetCell(assetData: AssetViewData, modifier: Modifier) {
-    Row(
-        modifier = Modifier.padding(4.dp),
-        verticalAlignment = Alignment.CenterVertically
+fun AssetFundamentalsView(fundamentals: Fundamentals, modifier: Modifier) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+            .size(40.dp)
     ) {
-        Image(
-            painter = painterResource(R.drawable.asset_placeholder),
-            contentDescription = null,
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .border(1.5.dp, Color.White, CircleShape)
+        Text(
+            style = MaterialTheme.typography.bodySmall,
+            text = "PER: ${fundamentals.per}",
+            modifier = Modifier.align(Alignment.TopStart)
         )
-        Spacer(modifier = Modifier.size(8.dp))
-        AssetName(assetData.tradeInfo, modifier)
+        Text(
+            style = MaterialTheme.typography.bodySmall,
+            text = "Dividend Yield: ${fundamentals.dividendYield}",
+            modifier = Modifier.align(Alignment.TopEnd)
+        )
+        Text(
+            style = MaterialTheme.typography.bodySmall,
+            text = "Earnings Per Share: ${fundamentals.earningsPerShare}",
+            modifier = Modifier.align(Alignment.BottomStart)
+        )
+        Text(
+            style = MaterialTheme.typography.bodySmall,
+            text = "Debt/Ebitda: ${fundamentals.ratioDebtEbitda}",
+            modifier = Modifier.align(Alignment.BottomEnd)
+        )
     }
-    Text(
-        style = MaterialTheme.typography.titleLarge,
-        text = assetData.tradeInfo.price
-    )
 }
 
 @Composable
-private fun AssetName(priceInfo: TradeData, modifier: Modifier) {
+fun AssetTradeDataView(tradeData: TradeData, modifier: Modifier) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceBetween,
+
+        )
+    {
+        Row(
+            modifier = Modifier.padding(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Image(
+                painter = painterResource(R.drawable.asset_placeholder),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .border(1.5.dp, Color.White, CircleShape)
+            )
+            Spacer(modifier = Modifier.size(8.dp))
+            AssetNameView(tradeData, modifier)
+        }
+        Text(
+            style = MaterialTheme.typography.titleLarge,
+            text = tradeData.price
+        )
+    }
+}
+
+@Composable
+fun AssetNameView(priceInfo: TradeData, modifier: Modifier) {
     Column {
         Text(
             style = MaterialTheme.typography.titleMedium,
@@ -89,6 +156,7 @@ private fun AssetName(priceInfo: TradeData, modifier: Modifier) {
         )
     }
 }
+
 
 @Composable
 fun Assets(assetsData: AssetsScreenData, modifier: Modifier = Modifier) {
