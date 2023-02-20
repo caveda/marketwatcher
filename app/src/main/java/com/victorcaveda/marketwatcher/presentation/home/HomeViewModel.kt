@@ -7,9 +7,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.victorcaveda.marketwatcher.domain.model.Price
 import com.victorcaveda.marketwatcher.domain.repository.CryptoRepository
-import com.victorcaveda.marketwatcher.presentation.model.AssetPriceData
+import com.victorcaveda.marketwatcher.presentation.model.AssetViewData
 import com.victorcaveda.marketwatcher.presentation.model.AssetsScreenData
 import com.victorcaveda.marketwatcher.presentation.model.HomeState
+import com.victorcaveda.marketwatcher.presentation.model.TradeData
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,12 +19,11 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repository: CryptoRepository) : ViewModel() {
 
-    var state by mutableStateOf(HomeState(buildDefaultAssetsScreenData()))
+    var state by mutableStateOf(HomeState(SampleAssetPriceData.value))
         private set
 
     companion object {
         private const val DEFAULT_TICKER = "ETH"
-        const val DEFAULT_NAME = "Ethereum"
         private const val DEFAULT_CURRENCY = "EUR"
     }
 
@@ -37,19 +37,17 @@ class HomeViewModel @Inject constructor(private val repository: CryptoRepository
                     )
                 },
                 {
-                    state = HomeState(buildDefaultAssetsScreenData())
-                })
+                    throw it // TODO Do something better
+                }
+            )
         }
     }
-
-    private fun buildDefaultAssetsScreenData() = AssetsScreenData(
-        listOf(AssetPriceData(DEFAULT_TICKER, DEFAULT_NAME, "-"))
-    )
 }
 
 private fun Price.toPresentation() =
     AssetsScreenData(
         MutableList(20) {
-            AssetPriceData(ticker, HomeViewModel.DEFAULT_NAME, "$currentPrice $currency")
-        })
+            TradeData(ticker, "any", "$currentPrice $currency")
+        }.map { AssetViewData(it, SampleAssetPriceData.fundamentals) }
+    )
 

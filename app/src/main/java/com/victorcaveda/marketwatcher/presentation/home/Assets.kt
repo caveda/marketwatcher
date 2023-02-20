@@ -26,13 +26,14 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.victorcaveda.marketwatcher.R
-import com.victorcaveda.marketwatcher.presentation.model.AssetPriceData
+import com.victorcaveda.marketwatcher.presentation.model.AssetViewData
 import com.victorcaveda.marketwatcher.presentation.model.AssetsScreenData
+import com.victorcaveda.marketwatcher.presentation.model.TradeData
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 
 
 @Composable
-fun AssetPrice(priceInfo: AssetPriceData, modifier: Modifier = Modifier) {
+fun AssetPrice(assetData: AssetViewData, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
             .padding(4.dp)
@@ -45,13 +46,13 @@ fun AssetPrice(priceInfo: AssetPriceData, modifier: Modifier = Modifier) {
 
             )
         {
-            AssetCell(priceInfo, modifier)
+            AssetCell(assetData, modifier)
         }
     }
 }
 
 @Composable
-private fun AssetCell(priceInfo: AssetPriceData, modifier: Modifier) {
+private fun AssetCell(assetData: AssetViewData, modifier: Modifier) {
     Row(
         modifier = Modifier.padding(4.dp),
         verticalAlignment = Alignment.CenterVertically
@@ -65,16 +66,16 @@ private fun AssetCell(priceInfo: AssetPriceData, modifier: Modifier) {
                 .border(1.5.dp, Color.White, CircleShape)
         )
         Spacer(modifier = Modifier.size(8.dp))
-        AssetName(priceInfo, modifier)
+        AssetName(assetData.tradeInfo, modifier)
     }
     Text(
         style = MaterialTheme.typography.titleLarge,
-        text = priceInfo.price
+        text = assetData.tradeInfo.price
     )
 }
 
 @Composable
-private fun AssetName(priceInfo: AssetPriceData, modifier: Modifier) {
+private fun AssetName(priceInfo: TradeData, modifier: Modifier) {
     Column {
         Text(
             style = MaterialTheme.typography.titleMedium,
@@ -93,7 +94,7 @@ private fun AssetName(priceInfo: AssetPriceData, modifier: Modifier) {
 fun Assets(assetsData: AssetsScreenData, modifier: Modifier = Modifier) {
     LazyColumn(modifier = Modifier.fillMaxWidth()) {
         items(assetsData.assets) { item ->
-            AssetPrice(priceInfo = item, modifier)
+            AssetPrice(assetData = item, modifier)
         }
     }
 }
