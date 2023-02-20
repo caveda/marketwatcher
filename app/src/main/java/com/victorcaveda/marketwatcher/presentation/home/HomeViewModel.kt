@@ -23,6 +23,7 @@ class HomeViewModel @Inject constructor(private val repository: CryptoRepository
 
     companion object {
         private const val DEFAULT_TICKER = "ETH"
+        const val DEFAULT_NAME = "Ethereum"
         private const val DEFAULT_CURRENCY = "EUR"
     }
 
@@ -42,13 +43,13 @@ class HomeViewModel @Inject constructor(private val repository: CryptoRepository
     }
 
     private fun buildDefaultAssetsScreenData() = AssetsScreenData(
-        listOf(AssetPriceData(DEFAULT_TICKER, "-"))
+        listOf(AssetPriceData(DEFAULT_TICKER, DEFAULT_NAME, "-"))
     )
 }
 
 private fun Price.toPresentation() =
     AssetsScreenData(
         MutableList(20) {
-            AssetPriceData(ticker, "$currentPrice $currency")
+            AssetPriceData(ticker, HomeViewModel.DEFAULT_NAME, "$currentPrice $currency")
         })
 

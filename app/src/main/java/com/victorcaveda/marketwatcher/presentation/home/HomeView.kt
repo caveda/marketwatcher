@@ -16,8 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.victorcaveda.marketwatcher.presentation.model.AssetPriceData
-import com.victorcaveda.marketwatcher.presentation.model.AssetsScreenData
 import com.victorcaveda.marketwatcher.presentation.model.HomeState
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 
@@ -26,12 +24,12 @@ import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 fun Home(state: HomeState, refreshAction: () -> Unit, modifier: Modifier = Modifier) {
     Card(
         shape = RoundedCornerShape(8.dp),
-        modifier = modifier.padding(16.dp)
+        modifier = modifier.padding(4.dp)
     ) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(4.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
@@ -47,7 +45,7 @@ fun Home(state: HomeState, refreshAction: () -> Unit, modifier: Modifier = Modif
                     modifier = modifier
                 )
             }
-            Spacer(modifier = Modifier.height(16.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             Assets(assetsData = state.data, modifier = modifier)
         }
     }
@@ -58,6 +56,6 @@ fun Home(state: HomeState, refreshAction: () -> Unit, modifier: Modifier = Modif
 @Composable
 fun GreetingPreview() {
     MarketWatcherTheme {
-        Home(HomeState(AssetsScreenData(listOf(AssetPriceData("ABC", "100,123 EUR")))), {})
+        Home(HomeState(makeFakeAssetPriceData()), {})
     }
 }

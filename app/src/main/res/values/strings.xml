@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MarketWatcher</string>
+    <string name="company_logo_description">Company logo</string>
 </resources>
