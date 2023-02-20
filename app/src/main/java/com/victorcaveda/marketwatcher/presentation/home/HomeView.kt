@@ -1,5 +1,6 @@
 package com.victorcaveda.marketwatcher.presentation.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -10,6 +11,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -52,10 +54,17 @@ fun Home(state: HomeState, refreshAction: () -> Unit, modifier: Modifier = Modif
 }
 
 
-@Preview(showBackground = true)
+@Preview(name = "Light Mode")
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "Dark Mode"
+)
 @Composable
 fun GreetingPreview() {
     MarketWatcherTheme {
-        Home(HomeState(makeFakeAssetPriceData()), {})
+        Surface {
+            Home(HomeState(SampleAssetPriceData.value), {})
+        }
     }
 }

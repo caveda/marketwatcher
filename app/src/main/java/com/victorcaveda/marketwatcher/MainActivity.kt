@@ -5,7 +5,6 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
 import com.victorcaveda.marketwatcher.presentation.home.Home
@@ -26,8 +25,7 @@ class MainActivity : ComponentActivity() {
             MarketWatcherTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-                    modifier = Modifier.fillMaxWidth(),
-                    color = MaterialTheme.colorScheme.background
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Home(viewModel.state, { viewModel.loadData() })
                 }

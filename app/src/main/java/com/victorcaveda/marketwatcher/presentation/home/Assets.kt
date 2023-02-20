@@ -1,5 +1,6 @@
 package com.victorcaveda.marketwatcher.presentation.home
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
@@ -14,6 +15,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -26,11 +28,11 @@ import androidx.compose.ui.unit.dp
 import com.victorcaveda.marketwatcher.R
 import com.victorcaveda.marketwatcher.presentation.model.AssetPriceData
 import com.victorcaveda.marketwatcher.presentation.model.AssetsScreenData
+import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 
 
 @Composable
 fun AssetPrice(priceInfo: AssetPriceData, modifier: Modifier = Modifier) {
-
     Box(
         modifier = modifier
             .padding(4.dp)
@@ -43,27 +45,32 @@ fun AssetPrice(priceInfo: AssetPriceData, modifier: Modifier = Modifier) {
 
             )
         {
-            Row(
-                modifier = Modifier.padding(4.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Image(
-                    painter = painterResource(R.drawable.asset_placeholder),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .size(40.dp)
-                        .clip(CircleShape)
-                        .border(1.5.dp, Color.White, CircleShape)
-                )
-                Spacer(modifier = Modifier.size(8.dp))
-                AssetName(priceInfo, modifier)
-            }
-            Text(
-                style = MaterialTheme.typography.titleMedium,
-                text = priceInfo.price
-            )
+            AssetCell(priceInfo, modifier)
         }
     }
+}
+
+@Composable
+private fun AssetCell(priceInfo: AssetPriceData, modifier: Modifier) {
+    Row(
+        modifier = Modifier.padding(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Image(
+            painter = painterResource(R.drawable.asset_placeholder),
+            contentDescription = null,
+            modifier = Modifier
+                .size(40.dp)
+                .clip(CircleShape)
+                .border(1.5.dp, Color.White, CircleShape)
+        )
+        Spacer(modifier = Modifier.size(8.dp))
+        AssetName(priceInfo, modifier)
+    }
+    Text(
+        style = MaterialTheme.typography.titleLarge,
+        text = priceInfo.price
+    )
 }
 
 @Composable
@@ -91,16 +98,21 @@ fun Assets(assetsData: AssetsScreenData, modifier: Modifier = Modifier) {
     }
 }
 
-@Preview(showBackground = true)
+
+@Preview(name = "Light Mode")
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "Dark Mode"
+)
 @Composable
 private fun PreviewAssets() {
-    Assets(
-        makeFakeAssetPriceData()
-    )
+    MarketWatcherTheme {
+        Surface {
+            Assets(
+                SampleAssetPriceData.value
+            )
+        }
+    }
 }
 
-@Composable
-internal fun makeFakeAssetPriceData() = AssetsScreenData(
-    MutableList(10)
-    { AssetPriceData("AMZN", "Amazon", "100,123 EUR") }
-)
