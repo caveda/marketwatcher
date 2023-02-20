@@ -167,7 +167,6 @@ fun Assets(assetsData: AssetsScreenData, modifier: Modifier = Modifier) {
     }
 }
 
-
 @Preview(name = "Light Mode")
 @Preview(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
