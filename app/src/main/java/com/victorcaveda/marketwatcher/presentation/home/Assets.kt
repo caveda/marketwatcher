@@ -26,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -44,12 +45,12 @@ import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 
 @Composable
 fun AssetPrice(assetData: AssetViewData, modifier: Modifier = Modifier) {
-    var isExpanded by remember { mutableStateOf(false) }
+    var isExpanded by rememberSaveable { mutableStateOf(false) }
     Box(
         modifier = modifier
             .padding(4.dp)
             .fillMaxWidth()
-            .clickable {isExpanded = !isExpanded}
+            .clickable { isExpanded = !isExpanded }
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
