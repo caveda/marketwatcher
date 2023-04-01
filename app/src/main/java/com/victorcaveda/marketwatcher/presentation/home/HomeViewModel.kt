@@ -47,7 +47,7 @@ class HomeViewModel @Inject constructor(private val repository: CryptoRepository
 private fun Price.toPresentation() =
     AssetsScreenData(
         MutableList(20) {
-            TradeData(ticker, "any", "$currentPrice $currency")
+            TradeData(ticker, "any", "$currentPrice $currency", 0.0)
         }.map { AssetViewData(it, SampleAssetPriceData.fundamentals) }
     )
 

@@ -1,12 +1,10 @@
 package com.victorcaveda.marketwatcher.presentation.home
 
 import android.content.res.Configuration
-import android.view.View
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,22 +23,25 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.victorcaveda.marketwatcher.R
 import com.victorcaveda.marketwatcher.presentation.model.AssetViewData
 import com.victorcaveda.marketwatcher.presentation.model.AssetsScreenData
 import com.victorcaveda.marketwatcher.presentation.model.Fundamentals
 import com.victorcaveda.marketwatcher.presentation.model.TradeData
+import com.victorcaveda.marketwatcher.presentation.ui.theme.Gray80
+import com.victorcaveda.marketwatcher.presentation.ui.theme.Green80
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
+import com.victorcaveda.marketwatcher.presentation.ui.theme.Red80
 
 
 @Composable
@@ -125,20 +126,17 @@ fun AssetTradeDataView(tradeData: TradeData, modifier: Modifier) {
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painter = painterResource(R.drawable.asset_placeholder),
+                painter = painterResource(tradeData.companyLogo),
                 contentDescription = null,
+                contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .size(40.dp)
                     .clip(CircleShape)
-                    .border(1.5.dp, Color.White, CircleShape)
             )
             Spacer(modifier = Modifier.size(8.dp))
             AssetNameView(tradeData, modifier)
         }
-        Text(
-            style = MaterialTheme.typography.titleLarge,
-            text = tradeData.price
-        )
+        AssetPriceView(tradeData, modifier)
     }
 }
 
@@ -148,11 +146,34 @@ fun AssetNameView(priceInfo: TradeData, modifier: Modifier) {
         Text(
             style = MaterialTheme.typography.titleMedium,
             text = priceInfo.name,
+            fontWeight = FontWeight.Bold,
             modifier = modifier
         )
         Text(
             style = MaterialTheme.typography.bodySmall,
             text = priceInfo.ticker,
+            color = Gray80,
+            modifier = modifier
+        )
+    }
+}
+
+
+@Composable
+fun AssetPriceView(priceInfo: TradeData, modifier: Modifier) {
+    Column(horizontalAlignment = Alignment.End) {
+        Text(
+            style = MaterialTheme.typography.titleMedium,
+            text = priceInfo.price,
+            fontWeight = FontWeight.Bold,
+            modifier = modifier
+        )
+        Text(
+            style = MaterialTheme.typography.bodySmall,
+            text = "${priceInfo.priceChangePercent.toString()}%",
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.End,
+            color = if (priceInfo.priceChangePercent < 0) Red80 else Green80,
             modifier = modifier
         )
     }
