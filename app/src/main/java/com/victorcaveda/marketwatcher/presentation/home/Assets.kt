@@ -42,6 +42,7 @@ import com.victorcaveda.marketwatcher.presentation.ui.theme.Gray80
 import com.victorcaveda.marketwatcher.presentation.ui.theme.Green80
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 import com.victorcaveda.marketwatcher.presentation.ui.theme.Red80
+import com.victorcaveda.marketwatcher.presentation.ui.theme.spacing
 
 
 @Composable
@@ -49,7 +50,7 @@ fun AssetPrice(assetData: AssetViewData, modifier: Modifier = Modifier) {
     var isExpanded by rememberSaveable { mutableStateOf(false) }
     Box(
         modifier = modifier
-            .padding(4.dp)
+            .padding(MaterialTheme.spacing.extraSmall)
             .fillMaxWidth()
             .clickable { isExpanded = !isExpanded }
     ) {

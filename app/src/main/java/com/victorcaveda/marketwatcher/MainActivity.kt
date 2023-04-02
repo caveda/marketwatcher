@@ -7,7 +7,7 @@ import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.victorcaveda.marketwatcher.presentation.home.Home
+import com.victorcaveda.marketwatcher.presentation.home.HomeScreen
 import com.victorcaveda.marketwatcher.presentation.home.HomeViewModel
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    Home(viewModel.state, { viewModel.loadData() })
+                    HomeScreen(viewModel.state, { viewModel.loadData() })
                 }
             }
         }
