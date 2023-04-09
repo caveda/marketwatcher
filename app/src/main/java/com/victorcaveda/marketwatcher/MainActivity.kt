@@ -3,20 +3,16 @@ package com.victorcaveda.marketwatcher
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.viewModels
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.victorcaveda.marketwatcher.presentation.home.HomeScreen
-import com.victorcaveda.marketwatcher.presentation.home.HomeViewModel
+import com.victorcaveda.marketwatcher.presentation.MainScreen
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
-
-    val viewModel: HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,7 +23,7 @@ class MainActivity : ComponentActivity() {
                 Surface(
                     modifier = Modifier.fillMaxWidth()
                 ) {
-                    HomeScreen(viewModel.state, { viewModel.loadData() })
+                    MainScreen()
                 }
             }
         }

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MarketWatcher</string>
     <string name="company_logo_description">Company logo</string>
+    <string name="home_screen_title">Watchlist</string>
+    <string name="portfolio_screen_title">Portfolio</string>
+    <string name="settings_screen_title">Settings</string>
 </resources>

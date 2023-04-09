@@ -21,7 +21,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.victorcaveda.marketwatcher.presentation.model.HomeState
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.victorcaveda.marketwatcher.presentation.ui.theme.MarketWatcherTheme
 import com.victorcaveda.marketwatcher.presentation.ui.theme.spacing
 import kotlinx.coroutines.delay
@@ -30,7 +30,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
-fun HomeScreen(state: HomeState, refreshAction: () -> Unit, modifier: Modifier = Modifier) {
+fun HomeScreen(modifier: Modifier = Modifier) {
+
+    val viewModel: HomeViewModel = hiltViewModel()
 
     val refreshScope = rememberCoroutineScope()
     var refreshing by remember { mutableStateOf(false) }
@@ -38,11 +40,11 @@ fun HomeScreen(state: HomeState, refreshAction: () -> Unit, modifier: Modifier =
     fun onRefresh() = refreshScope.launch {
         refreshing = true
         delay(1500)
-        refreshAction
+        viewModel.loadData()
         refreshing = false
     }
 
-    val refreshState = rememberPullRefreshState(refreshing, ::onRefresh)
+    val refreshState = rememberPullRefreshState(refreshing, { viewModel.loadData() })
     Box(
         modifier = modifier
             .padding(MaterialTheme.spacing.extraSmall)
@@ -56,7 +58,7 @@ fun HomeScreen(state: HomeState, refreshAction: () -> Unit, modifier: Modifier =
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceEvenly
         ) {
-            Assets(assetsData = state.data, modifier = modifier)
+            Assets(assetsData = viewModel.state.data, modifier = modifier)
         }
     }
 }
@@ -72,7 +74,7 @@ fun HomeScreen(state: HomeState, refreshAction: () -> Unit, modifier: Modifier =
 fun GreetingPreview() {
     MarketWatcherTheme {
         Surface {
-            HomeScreen(HomeState(SampleAssetPriceData.value), {})
+            HomeScreen()
         }
     }
 }
